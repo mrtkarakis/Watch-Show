@@ -21,9 +21,7 @@ Future<void> signInFirebase(
     await dbServices.usersDb.doc(user.uid).get().then(
       (data) {
         Map<String, dynamic>? userData = (data.data());
-        print(userData);
         currentUser = CurrentUser.fromMap(userData as Map<String, dynamic>);
-        print(currentUser);
         userStore.userData = currentUser;
 
         _navigationHomePage(NavigationService.navigatorKey.currentContext!);

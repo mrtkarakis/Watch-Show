@@ -12,18 +12,18 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cloud_firestore: ^3.1.14
-  cupertino_icons: ^1.0.2
-  firebase_auth: ^3.3.17
-  firebase_core: ^1.16.0
-  youtube_player_flutter: ^8.0.0
+  cloud_firestore: ^3.1.17
+  cupertino_icons: ^1.0.5
+  firebase_auth: ^3.3.19
+  firebase_core: ^1.17.1
+  youtube_player_flutter: ^8.1.0
   iso_duration_parser: ^1.1.1
 
 
   #stateManagement
   mobx: ^2.0.7
-  flutter_mobx: ^2.0.3+2
-  shared_preferences: ^2.0.13
+  flutter_mobx: ^2.0.6+1
+  shared_preferences: ^2.0.15
 
   http: ^0.13.4
 

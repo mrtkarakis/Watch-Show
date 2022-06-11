@@ -1,15 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:watch_and_show/core/custom_appbar.dart';
 import 'package:watch_and_show/extensions/duration.dart';
-import 'package:watch_and_show/extensions/string.dart';
 import 'package:watch_and_show/global.dart';
-import 'package:watch_and_show/models/channel.dart';
 import 'package:watch_and_show/models/video.dart';
 import 'package:watch_and_show/pages/profilePage/userYoutubeChannel/user_youtube_channel_widgets.dart';
-import 'package:watch_and_show/services/api_services.dart';
-import 'package:watch_and_show/services/youtube_services.dart';
 
 class UserYouTubeChannelPage extends StatefulWidget {
   const UserYouTubeChannelPage({Key? key}) : super(key: key);

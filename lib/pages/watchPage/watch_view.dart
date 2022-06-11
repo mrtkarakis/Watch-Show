@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:watch_and_show/core/animated_button.dart';
@@ -17,9 +19,7 @@ class _WatchPageState extends State<WatchPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    const String videoUrl = "https://www.youtube.com/watch?v=l4cgpaLg_Ls";
 
     playerController = YoutubePlayerController(
       initialVideoId: "JK3zztXnDxs",
@@ -45,14 +45,12 @@ class _WatchPageState extends State<WatchPage> {
 
   @override
   void deactivate() {
-    // TODO: implement deactivate
     super.deactivate();
     playerController.pause();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     playerController.dispose();
   }
@@ -67,7 +65,6 @@ class _WatchPageState extends State<WatchPage> {
         CurrentPosition(),
       ],
       onEnded: (data) {
-        print("data $data");
         const String nextVideoUtl =
             "https://www.youtube.com/watch?v=hR5JMf_9s6w&t=124s";
         String nextVideo = YoutubePlayer.convertUrlToId(nextVideoUtl)!;

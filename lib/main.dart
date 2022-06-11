@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,7 +5,6 @@ import 'package:watch_and_show/global.dart';
 import 'package:watch_and_show/models/user.dart';
 import 'package:watch_and_show/pages/bottomNavigationBar/bottom_navigation_bar.dart';
 import 'package:watch_and_show/pages/loginPage/login_register_page.dart';
-import 'package:watch_and_show/pages/loginPage/login_view.dart';
 
 import 'pages/onBoardingPage/on_boarding_view.dart';
 import 'services/global_services.dart';

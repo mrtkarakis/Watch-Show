@@ -1,9 +1,13 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+
 import 'package:watch_and_show/global.dart';
 import 'package:watch_and_show/styles/app_theme.dart';
 
+// ignore: must_be_immutable
 class AnimatedButton extends StatefulWidget {
   final String text;
   Color? textColor;
@@ -24,18 +28,18 @@ class AnimatedButton extends StatefulWidget {
   AnimatedButton({
     Key? key,
     required this.text,
-    this.bgColor = Colors.white,
     this.textColor,
+    this.bgColor = Colors.white,
+    this.linearGradient,
+    this.textAlignment = const Alignment(0, 0.2),
     this.milliseconds = 500,
     this.height = 55,
     this.width = 130,
-    this.linearGradient,
     this.shadow = true,
-    this.shadowColor = Colors.grey,
-    this.shadowRadius = 12,
     this.waitAnimation = false,
     this.shadowOffset = const Offset(-2, 7),
-    this.textAlignment = const Alignment(0, 0.2),
+    this.shadowColor = Colors.grey,
+    this.shadowRadius = 12,
     this.onPressed,
     this.loading = true,
   }) : super(key: key);

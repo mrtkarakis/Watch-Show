@@ -14,9 +14,7 @@ class BottomBarNavigation extends StatefulWidget {
 
 class _BottomBarNavigationState extends State<BottomBarNavigation> {
   int _selectedIndex = 1;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  List<Widget> _widgetOptions = <Widget>[
+  final List<Widget> _widgetOptions = const <Widget>[
     TaskPage(),
     WatchPage(),
     ProfilePage(),

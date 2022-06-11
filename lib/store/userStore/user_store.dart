@@ -42,6 +42,7 @@ abstract class _UserStoreBase with Store {
   void setTotalSteps(int? _totalSteps) => totalSteps = _totalSteps;
 
   Future<void> getUserData() async {
+    // ignore: unnecessary_null_comparison
     if (user == null) {
       setUser(FirebaseAuth.instance.currentUser!);
     }

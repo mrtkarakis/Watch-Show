@@ -1,12 +1,13 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 /// Homepage
 class ExampleWatchPageExample extends StatefulWidget {
+  const ExampleWatchPageExample({Key? key}) : super(key: key);
+
   @override
   _ExampleWatchPageExampleState createState() =>
       _ExampleWatchPageExampleState();
@@ -126,8 +127,8 @@ class _ExampleWatchPageExampleState extends State<ExampleWatchPageExample> {
       ),
       builder: (context, player) => Scaffold(
         appBar: AppBar(
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 12.0),
+          leading: const Padding(
+            padding: EdgeInsets.only(left: 12.0),
             // child: Image.asset(
             //   'assets/ypf.png',
             //   fit: BoxFit.fitWidth,
@@ -137,7 +138,7 @@ class _ExampleWatchPageExampleState extends State<ExampleWatchPageExample> {
             'Youtube Player Flutter',
             style: TextStyle(color: Colors.white),
           ),
-          actions: [
+          actions: const [
             // IconButton(
             //   icon: const Icon(Icons.video_library),
             //   onPressed: () => Navigator.push(
@@ -183,7 +184,7 @@ class _ExampleWatchPageExampleState extends State<ExampleWatchPageExample> {
                     controller: _idController,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'Enter youtube \<video id\> or \<link\>',
+                      hintText: 'Enter youtube <video id> or <link>',
                       fillColor: Colors.blueAccent.withAlpha(20),
                       filled: true,
                       hintStyle: const TextStyle(

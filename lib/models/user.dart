@@ -21,7 +21,7 @@ class CurrentUser {
   factory CurrentUser.fromMap(Map<String, dynamic> map) {
     return CurrentUser(
       userId: map['userId'],
-      name: map['name'] ?? null,
+      name: map['name'],
       email: map['email'],
       credits: map['credits'] ?? 0,
       provider: map['provider'] == "email" ? Provider.email : Provider.google,

@@ -7,11 +7,12 @@
 //   final String _baseUrl = "www.googleapis.com";
 //   String _nextPageToken = "";
 
+// ignore_for_file: avoid_print
+
 //   Future<Channel> fetchChannel({required String channelId}) async{
 //     Map
 //   }
 // }
-import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:iso_duration_parser/iso_duration_parser.dart';
 import 'package:watch_and_show/global.dart';
@@ -46,7 +47,7 @@ class APIService {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
 
-    print("channelUri  ${uri}  ");
+    print("channelUri  $uri  ");
     // Get Channel
     var response = await http.get(uri, headers: headers);
     if (response.statusCode == 200) {
@@ -76,7 +77,7 @@ class APIService {
       '/youtube/v3/playlistItems',
       parameters,
     );
-    print("videoUri ${uri} ");
+    print("videoUri $uri ");
     Map<String, String> headers = {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
@@ -135,13 +136,6 @@ class APIService {
 // https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=TruIq5IxuiU,-VoFbH8jTzE,RPNDXrAvAMg,gmQmYc9-zcg&key=AIzaSyAywB9VuAeri3ArItxRCYp-M3hh-ldhqtI
 // https://www.googleapis.com/youtube/v3/videos?id=9bZkp7q19f0&id=Mfa3u3naQew&part=contentDetails&key=AIzaSyAywB9VuAeri3ArItxRCYp-M3hh-ldhqtI
   Future<void> fetchVideosDuration(String ids) async {
-    Map<String, String> parameters = {
-      'part': 'contentDetails',
-      'maxResults': '50',
-      'key': youtubeApiKey,
-      "statics&id": ids,
-      // "statics": ids,
-    };
     // Uri uri = Uri.https(
     //   _baseUrl,
     //   '/youtube/v3/videos',

@@ -88,14 +88,14 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             Navigator.push(context,
                 MaterialPageRoute(builder: (_) => const LoginRegisterPage()));
           },
-          child: Text("skip"));
+          child: const Text("skip"));
 
   Widget onBoardingStartButton(BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 98.0),
         child: ElevatedButton(
             onPressed: () => Navigator.push(context,
                 MaterialPageRoute(builder: (_) => const LoginRegisterPage())),
-            child: Text("start_explore")),
+            child: const Text("start_explore")),
       );
 
   Widget onBoardingMessage(int index) {

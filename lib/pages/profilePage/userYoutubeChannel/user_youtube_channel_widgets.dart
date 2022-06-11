@@ -24,23 +24,12 @@ class UserYoutubeChannelWidgets {
       );
     }
 
-    Widget videoTitle() {
-      return Text(
-        video.title!,
-        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        maxLines: 2,
-      );
-    }
-
     Widget videoViewCounter() {
       return Row(
         children: [
           const Icon(Icons.remove_red_eye_outlined),
           const SizedBox(width: 6),
-          Text(
-            "${video.viewCount}",
-            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-          ),
+          VideoDetailWidgets(video: video).videoViewCount("${video.viewCount}"),
         ],
       );
     }
@@ -68,11 +57,8 @@ class UserYoutubeChannelWidgets {
           const SizedBox(width: 3),
           Align(
               alignment: Alignment.centerRight,
-              child: Text(
-                "${video.publishedAt?.day.toString().withZero()}/${video.publishedAt?.month.toString().withZero()}/${video.publishedAt?.year.toString().withZero()}",
-                style:
-                    const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-              )),
+              child:
+                  VideoDetailWidgets(video: video).viedeoPublishedDate(video)),
         ],
       );
     }
@@ -96,7 +82,7 @@ class UserYoutubeChannelWidgets {
               children: [
                 videoThumbnail(),
                 const SizedBox(height: 20),
-                videoTitle(),
+                VideoDetailWidgets(video: video).videoTitle(),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -115,5 +101,34 @@ class UserYoutubeChannelWidgets {
             ),
           );
         });
+  }
+}
+
+class VideoDetailWidgets {
+  final Video? video;
+  VideoDetailWidgets({
+    required this.video,
+  });
+
+  Text viedeoPublishedDate(Video video) {
+    return Text(
+      "${video.publishedAt?.day.toString().withZero()}/${video.publishedAt?.month.toString().withZero()}/${video.publishedAt?.year.toString().withZero()}",
+      style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+    );
+  }
+
+  Widget videoTitle() {
+    return Text(
+      "${video?.title} ",
+      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      maxLines: 2,
+    );
+  }
+
+  Text videoViewCount(String? videoViewCount) {
+    return Text(
+      "${video?.viewCount}",
+      style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+    );
   }
 }

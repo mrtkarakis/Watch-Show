@@ -66,7 +66,7 @@ class LoginRegisterPage extends StatelessWidget {
         height: deviceStore.width / 1.3,
         width: deviceStore.width / 1.3,
         color: Colors.red,
-        child: Center(child: const Text("IMAGE")),
+        child: const Center(child: Text("IMAGE")),
       ),
     );
   }
