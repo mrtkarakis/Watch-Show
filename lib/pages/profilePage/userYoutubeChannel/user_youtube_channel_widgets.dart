@@ -5,6 +5,8 @@ import 'package:watch_and_show/extensions/string.dart';
 import 'package:watch_and_show/global.dart';
 import 'package:watch_and_show/models/published_video.dart';
 import 'package:watch_and_show/models/video.dart';
+import 'package:watch_and_show/pages/profilePage/userYoutubeChannel/set_watch_video_duration.dart';
+import 'package:watch_and_show/pages/profilePage/userYoutubeChannel/set_watch_video_viewer.dart';
 
 class UserYoutubeChannelWidgets {
   videoDetail({
@@ -64,15 +66,18 @@ class UserYoutubeChannelWidgets {
       );
     }
 
-    Widget addViewerButton({required Video video}) {
+    Widget publishedVideoButton({required Video video}) {
       return AnimatedButton(
         text: "Publish",
-        onPressed: () {
-          final String docId = dbServices.publishedVideoDb.doc().id;
-          PublishedVideo publishedVideo =
-              PublishedVideo.fromVideoData(docId: docId, video: video);
+        onPressed: () async {
+          bool hasVideo = await checkHasVideo(video.id ?? "") as bool;
+          if (!hasVideo) {
+            final String docId = dbServices.publishedVideoDb.doc().id;
+            PublishedVideo publishedVideo =
+                PublishedVideo.fromVideoData(docId: docId, video: video);
 
-          dbServices.publishedVideoDb.doc(docId).set(publishedVideo.toMap());
+            dbServices.publishedVideoDb.doc(docId).set(publishedVideo.toMap());
+          }
         },
       );
     }
@@ -104,14 +109,36 @@ class UserYoutubeChannelWidgets {
                     videoPublished(),
                   ],
                 ),
-                const Spacer(flex: 4),
-                addViewerButton(video: video),
                 const Spacer(flex: 2),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SetWatchVideoDuration(
+                      videoDurationSecond: video.duration!.inSeconds,
+                    ),
+                    const SetWatchVideoViewer()
+                  ],
+                ),
+                publishedVideoButton(video: video),
+                const Spacer(flex: 5),
               ],
             ),
           );
         });
   }
+}
+
+Future<bool?> checkHasVideo(String videoId) async {
+  bool? result;
+  await dbServices.publishedVideoDb
+      .where("videoId", isEqualTo: videoId)
+      .limit(1)
+      .get()
+      .then((value) {
+    result = value.docs.isNotEmpty;
+  });
+  return result;
 }
 
 class VideoDetailWidgets {

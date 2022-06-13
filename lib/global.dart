@@ -7,11 +7,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:watch_and_show/services/databases_services.dart';
 import 'package:watch_and_show/store/channelStore/channel_store.dart';
 import 'package:watch_and_show/store/deviceStore/device_store.dart';
+import 'package:watch_and_show/store/publishedVideoStore/published_video_store.dart';
 import 'package:watch_and_show/store/userStore/user_store.dart';
 
 UserStore userStore = UserStore();
 DeviceStore deviceStore = DeviceStore();
 ChannelStore channelStore = ChannelStore();
+PublishedVideoStore publishedVideoStore = PublishedVideoStore();
 
 FirebaseAuth auth = FirebaseAuth.instance;
 

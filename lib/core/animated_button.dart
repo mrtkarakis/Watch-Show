@@ -18,6 +18,7 @@ class AnimatedButton extends StatefulWidget {
   final double height;
   final double width;
   final bool shadow;
+  late bool? active;
   final bool waitAnimation;
   final Offset shadowOffset;
   final Color shadowColor;
@@ -28,6 +29,7 @@ class AnimatedButton extends StatefulWidget {
   AnimatedButton({
     Key? key,
     required this.text,
+    this.active,
     this.textColor,
     this.bgColor = Colors.white,
     this.linearGradient,
@@ -61,7 +63,7 @@ class _AnimatedButtonState extends State<AnimatedButton> {
   GlobalKey<State<StatefulWidget>> buttonKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    widget.onPressed = widget.onPressed ?? () {};
+    widget.active = widget.active ?? widget.onPressed != null;
     widget.textColor =
         widget.textColor ?? AppTheme().theme().colorScheme.primary;
 
@@ -107,7 +109,8 @@ class _AnimatedButtonState extends State<AnimatedButton> {
         ),
         ElevatedButton(
           key: buttonKey,
-          onPressed: widget.loading && deviceStore.loading
+          onPressed: (widget.loading && deviceStore.loading) ||
+                  !(widget.active ?? false)
               ? () {}
               : () {
                   final keyContext = buttonKey.currentContext;
