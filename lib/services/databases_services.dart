@@ -9,4 +9,6 @@ class DatabasesServices {
       db.collection("channels");
   final CollectionReference<Map<String, dynamic>> videosDb =
       db.collection("videos");
+  final CollectionReference<Map<String, dynamic>> publishedVideoDb =
+      db.collection("publishedVideo");
 }

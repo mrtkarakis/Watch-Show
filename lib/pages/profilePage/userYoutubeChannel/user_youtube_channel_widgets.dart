@@ -3,6 +3,7 @@ import 'package:watch_and_show/core/animated_button.dart';
 import 'package:watch_and_show/extensions/duration.dart';
 import 'package:watch_and_show/extensions/string.dart';
 import 'package:watch_and_show/global.dart';
+import 'package:watch_and_show/models/published_video.dart';
 import 'package:watch_and_show/models/video.dart';
 
 class UserYoutubeChannelWidgets {
@@ -63,8 +64,17 @@ class UserYoutubeChannelWidgets {
       );
     }
 
-    Widget addViewerButton() {
-      return AnimatedButton(text: "Publish");
+    Widget addViewerButton({required Video video}) {
+      return AnimatedButton(
+        text: "Publish",
+        onPressed: () {
+          final String docId = dbServices.publishedVideoDb.doc().id;
+          PublishedVideo publishedVideo =
+              PublishedVideo.fromVideoData(docId: docId, video: video);
+
+          dbServices.publishedVideoDb.doc(docId).set(publishedVideo.toMap());
+        },
+      );
     }
 
     showModalBottomSheet(
@@ -95,7 +105,7 @@ class UserYoutubeChannelWidgets {
                   ],
                 ),
                 const Spacer(flex: 4),
-                addViewerButton(),
+                addViewerButton(video: video),
                 const Spacer(flex: 2),
               ],
             ),
