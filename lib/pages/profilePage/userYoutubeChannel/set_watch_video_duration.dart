@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:watch_and_show/global.dart';
+import 'package:watch_and_show/services/api_services.dart';
 
 class SetWatchVideoDuration extends StatefulWidget {
   const SetWatchVideoDuration({
@@ -18,6 +19,10 @@ class _SetWatchVideoDurationState extends State<SetWatchVideoDuration> {
   static const String text = "Watch Duration";
   @override
   Widget build(BuildContext context) {
+    if (publishedVideoStore.duration > widget.videoDurationSecond) {
+      publishedVideoStore.duration = (widget.videoDurationSecond ~/ 15) * 15;
+    }
+
     return SizedBox(
       width: 150,
       child: Column(
@@ -75,6 +80,7 @@ class _SetWatchVideoDurationState extends State<SetWatchVideoDuration> {
                 developerLog("${publishedVideoStore.duration}",
                     name: "duration");
               });
+              publishedVideoStore.setTotalCreditAmount();
             }
           : null,
       style: OutlinedButton.styleFrom(

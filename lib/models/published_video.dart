@@ -26,6 +26,7 @@ class PublishedVideo {
   final int? videoDuration;
   final int? viewDuration;
   final int? viewer;
+  final int? amount;
   final String? videoId;
   final int? videoViewCount;
   final int? videoLikeCount;
@@ -40,6 +41,7 @@ class PublishedVideo {
     this.videoDuration,
     this.viewDuration,
     this.viewer,
+    this.amount,
     this.videoId,
     this.videoViewCount,
     this.videoLikeCount,
@@ -56,6 +58,7 @@ class PublishedVideo {
     int? videoDuration,
     int? viewDuration,
     int? viewer,
+    int? amount,
     String? videoId,
     int? videoViewCount,
     int? videoLikeCount,
@@ -71,6 +74,7 @@ class PublishedVideo {
       videoDuration: videoDuration ?? this.videoDuration,
       viewDuration: viewDuration ?? this.viewDuration,
       viewer: viewer ?? this.viewer,
+      amount: amount ?? this.amount,
       videoId: videoId ?? this.videoId,
       videoViewCount: videoViewCount ?? this.videoViewCount,
       videoLikeCount: videoLikeCount ?? this.videoLikeCount,
@@ -89,6 +93,7 @@ class PublishedVideo {
       'videoDuration': videoDuration,
       'viewDuration': viewDuration,
       'viewer': viewer,
+      'amount': amount,
       'videoId': videoId,
       'videoViewCount': videoViewCount,
       'videoLikeCount': videoLikeCount,
@@ -108,6 +113,7 @@ class PublishedVideo {
       videoDuration: video.duration?.inSeconds,
       viewDuration: publishedVideoStore.duration,
       viewer: publishedVideoStore.viewer,
+      amount: publishedVideoStore.totalCreditAmount,
       videoId: video.id,
       videoViewCount: video.viewCount,
       videoLikeCount: video.likeCount,
@@ -130,6 +136,7 @@ class PublishedVideo {
       videoDuration: map['videoDuration']?.toInt(),
       viewDuration: map['viewDuration']?.toInt(),
       viewer: map['viewer']?.toInt(),
+      amount: map['amount']?.toInt(),
       videoId: map['videoId'],
       videoViewCount: map['videoViewCount']?.toInt(),
       videoLikeCount: map['videoLikeCount']?.toInt(),
@@ -145,7 +152,7 @@ class PublishedVideo {
 
   @override
   String toString() {
-    return 'PublishedVideo(docId: $docId, videoName: $videoName, videoPublishedAt: $videoPublishedAt, videoPublishedAt: $videoPublishedAt, videoCommentCount: $videoCommentCount, videoDuration: $videoDuration, viewDuration: $viewDuration, viewer: $viewer, videoId: $videoId, videoViewCount: $videoViewCount, videoLikeCount: $videoLikeCount, videoThumbnailUrl: $videoThumbnailUrl, videoOwnerChannelId: $videoOwnerChannelId)';
+    return 'PublishedVideo(docId: $docId, videoName: $videoName, videoPublishedAt: $videoPublishedAt, videoPublishedAt: $videoPublishedAt, videoCommentCount: $videoCommentCount, videoDuration: $videoDuration, viewDuration: $viewDuration, viewer: $viewer, amount: $amount  , videoId: $videoId, videoViewCount: $videoViewCount, videoLikeCount: $videoLikeCount, videoThumbnailUrl: $videoThumbnailUrl, videoOwnerChannelId: $videoOwnerChannelId)';
   }
 
   @override
@@ -161,6 +168,7 @@ class PublishedVideo {
         other.videoDuration == videoDuration &&
         other.viewDuration == viewDuration &&
         other.viewer == viewer &&
+        other.amount == amount &&
         other.videoId == videoId &&
         other.videoViewCount == videoViewCount &&
         other.videoLikeCount == videoLikeCount &&
@@ -178,6 +186,7 @@ class PublishedVideo {
         videoDuration.hashCode ^
         viewDuration.hashCode ^
         viewer.hashCode ^
+        amount.hashCode ^
         videoId.hashCode ^
         videoViewCount.hashCode ^
         videoLikeCount.hashCode ^

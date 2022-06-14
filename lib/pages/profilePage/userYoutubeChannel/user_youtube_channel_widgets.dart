@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:watch_and_show/core/animated_button.dart';
 import 'package:watch_and_show/extensions/duration.dart';
 import 'package:watch_and_show/extensions/string.dart';
@@ -85,7 +86,7 @@ class UserYoutubeChannelWidgets {
     showModalBottomSheet(
         isScrollControlled: true,
         constraints: BoxConstraints(
-            maxHeight: deviceStore.height - 180, minWidth: double.infinity),
+            maxHeight: deviceStore.height - 80, minWidth: double.infinity),
         context: context,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -120,13 +121,29 @@ class UserYoutubeChannelWidgets {
                     const SetWatchVideoViewer()
                   ],
                 ),
+                const Spacer(flex: 1),
+                totalCreditAmount(),
+                const SizedBox(height: 12),
                 publishedVideoButton(video: video),
-                const Spacer(flex: 5),
+                const Spacer(flex: 2),
               ],
             ),
           );
         });
   }
+}
+
+Widget totalCreditAmount() {
+  return Observer(builder: (_) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Text(
+        "Total Amount " + publishedVideoStore.totalCreditAmount.toString(),
+        style: const TextStyle(
+            fontSize: 18, fontWeight: FontWeight.w700, color: Colors.orange),
+      ),
+    );
+  });
 }
 
 Future<bool?> checkHasVideo(String videoId) async {

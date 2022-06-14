@@ -71,6 +71,7 @@ class _SetWatchVideoViewerState extends State<SetWatchVideoViewer> {
                 developerLog("${publishedVideoStore..viewer}",
                     name: "duration");
               });
+              publishedVideoStore.setTotalCreditAmount();
             }
           : null,
       style: OutlinedButton.styleFrom(
