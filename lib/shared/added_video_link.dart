@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:watch_and_show/core/custom_appbar.dart';
+import 'package:watch_and_show/core/video_thumbnail.dart';
 import 'package:watch_and_show/models/channel.dart';
 import 'package:watch_and_show/models/video.dart';
 import 'package:watch_and_show/services/api_services.dart';
@@ -105,10 +106,7 @@ class _AddedVideoLinkPageState extends State<AddedVideoLinkPage> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Image(
-              width: 150.0,
-              image: NetworkImage(video.thumbnailUrl!),
-            ),
+            VideoThumbnail(src: video.thumbnailUrl ?? ""),
             const SizedBox(width: 10.0),
             Expanded(
               child: Padding(

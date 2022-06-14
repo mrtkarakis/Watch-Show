@@ -1,38 +1,42 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:watch_and_show/core/animated_button.dart';
 import 'package:watch_and_show/global.dart';
-import 'package:watch_and_show/shared/added_video_link.dart';
+import 'package:watch_and_show/models/published_video.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class WatchPage extends StatefulWidget {
-  const WatchPage({Key? key}) : super(key: key);
+import 'package:watch_and_show/core/custom_appbar.dart';
+
+class WatchViewPage extends StatefulWidget {
+  const WatchViewPage({
+    Key? key,
+    required this.video,
+  }) : super(key: key);
+  final PublishedVideo video;
 
   @override
-  State<WatchPage> createState() => _WatchPageState();
+  State<WatchViewPage> createState() => _WatchViewPageState();
 }
 
-class _WatchPageState extends State<WatchPage> {
+class _WatchViewPageState extends State<WatchViewPage> {
   late YoutubePlayerController playerController;
-
+  late final PublishedVideo video;
   @override
   void initState() {
+    video = widget.video;
+
     super.initState();
 
     playerController = YoutubePlayerController(
-      initialVideoId: "JK3zztXnDxs",
-      flags: const YoutubePlayerFlags(
+      initialVideoId: video.videoId!,
+      flags: YoutubePlayerFlags(
         mute: true,
-        autoPlay: false,
+        autoPlay: true,
         loop: false,
         forceHD: false,
         isLive: false,
         disableDragSeek: true,
         // hideControls: true,
         useHybridComposition: false,
-        endAt: 60,
+        endAt: video.viewDuration,
         controlsVisibleAtStart: true,
         // enableCaption: false,
       ),
@@ -65,17 +69,13 @@ class _WatchPageState extends State<WatchPage> {
         CurrentPosition(),
       ],
       onEnded: (data) {
-        const String nextVideoUtl =
-            "https://www.youtube.com/watch?v=hR5JMf_9s6w&t=124s";
-        String nextVideo = YoutubePlayer.convertUrlToId(nextVideoUtl)!;
-        if (nextVideo == (playerController.value.metaData.videoId)) {
-          nextVideo = YoutubePlayer.convertUrlToId(
-              "https://www.youtube.com/watch?v=l4cgpaLg_Ls")!;
-        }
-        playerController.load(nextVideo, endAt: 60);
+        dbServices.publishedVideoDb
+            .doc(video.docId)
+            .update({"watcher": (video.watcher ?? 0) + 1});
       },
     );
     return Scaffold(
+      appBar: customAppBar(context),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +90,6 @@ class _WatchPageState extends State<WatchPage> {
                 },
                 child:
                     Text(playerController.value.isPlaying ? "Pause" : "Play")),
-            // ElevatedButton(onPressed: () {}, child: const Text("NExtVideo")),
             Row(
               children: [
                 ElevatedButton(
@@ -108,36 +107,9 @@ class _WatchPageState extends State<WatchPage> {
             Text("Title  ${playerController.metadata.title}"),
             Text("Author  ${playerController.metadata.author}"),
             Text("Duration  ${playerController.metadata.duration.inSeconds}"),
-            AnimatedButton(
-              text: "D",
-              onPressed: () {
-                deviceStore.changeLoading(true);
-                Future.delayed(Duration(milliseconds: 2222), () {
-                  deviceStore.changeLoading(false);
-                });
-              },
-              loading: true,
-            ),
-            Observer(
-              builder: (_) {
-                return Text(deviceStore.loading.toString());
-              },
-            ),
             const Spacer(),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (_) => const AddedVideoLinkPage()));
-        },
-        child: Icon(
-          Icons.add_rounded,
-          color: Colors.black.withOpacity(.5),
-          size: 50,
-        ),
-        autofocus: false,
       ),
     );
     // });

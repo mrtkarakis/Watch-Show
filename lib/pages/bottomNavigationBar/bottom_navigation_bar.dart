@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:watch_and_show/global.dart';
 import 'package:watch_and_show/pages/profilePage/profile_view.dart';
-import 'package:watch_and_show/pages/watchPage/watch_view.dart';
+import 'package:watch_and_show/pages/watchPage/videos_page.dart';
 
 import '../taskPage/task_view.dart';
 
@@ -16,7 +16,7 @@ class _BottomBarNavigationState extends State<BottomBarNavigation> {
   int _selectedIndex = 1;
   final List<Widget> _widgetOptions = const <Widget>[
     TaskPage(),
-    WatchPage(),
+    VideosPage(),
     ProfilePage(),
   ];
 

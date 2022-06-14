@@ -27,6 +27,7 @@ class PublishedVideo {
   final int? viewDuration;
   final int? viewer;
   final int? amount;
+  final int? watcher;
   final String? videoId;
   final int? videoViewCount;
   final int? videoLikeCount;
@@ -41,7 +42,8 @@ class PublishedVideo {
     this.videoDuration,
     this.viewDuration,
     this.viewer,
-    this.amount,
+    this.amount = 0,
+    this.watcher,
     this.videoId,
     this.videoViewCount,
     this.videoLikeCount,
@@ -59,6 +61,7 @@ class PublishedVideo {
     int? viewDuration,
     int? viewer,
     int? amount,
+    int? watcher,
     String? videoId,
     int? videoViewCount,
     int? videoLikeCount,
@@ -75,6 +78,7 @@ class PublishedVideo {
       viewDuration: viewDuration ?? this.viewDuration,
       viewer: viewer ?? this.viewer,
       amount: amount ?? this.amount,
+      watcher: watcher ?? this.watcher,
       videoId: videoId ?? this.videoId,
       videoViewCount: videoViewCount ?? this.videoViewCount,
       videoLikeCount: videoLikeCount ?? this.videoLikeCount,
@@ -94,6 +98,7 @@ class PublishedVideo {
       'viewDuration': viewDuration,
       'viewer': viewer,
       'amount': amount,
+      'watcher': watcher,
       'videoId': videoId,
       'videoViewCount': videoViewCount,
       'videoLikeCount': videoLikeCount,
@@ -114,6 +119,7 @@ class PublishedVideo {
       viewDuration: publishedVideoStore.duration,
       viewer: publishedVideoStore.viewer,
       amount: publishedVideoStore.totalCreditAmount,
+      watcher: 0,
       videoId: video.id,
       videoViewCount: video.viewCount,
       videoLikeCount: video.likeCount,
@@ -127,16 +133,17 @@ class PublishedVideo {
       docId: map['docId'],
       videoName: map['videoName'],
       videoPublishedAt: map['videoPublishedAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['videoPublishedAt'])
+          ? DateTime.fromMillisecondsSinceEpoch(map['videoPublishedAt'].seconds)
           : null,
       addTime: map['addTime'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['addTime'])
+          ? DateTime.fromMillisecondsSinceEpoch(map['addTime'].seconds)
           : null,
       videoCommentCount: map['videoCommentCount']?.toInt(),
       videoDuration: map['videoDuration']?.toInt(),
       viewDuration: map['viewDuration']?.toInt(),
       viewer: map['viewer']?.toInt(),
       amount: map['amount']?.toInt(),
+      watcher: map['watcher'] ?? 0,
       videoId: map['videoId'],
       videoViewCount: map['videoViewCount']?.toInt(),
       videoLikeCount: map['videoLikeCount']?.toInt(),
@@ -152,7 +159,7 @@ class PublishedVideo {
 
   @override
   String toString() {
-    return 'PublishedVideo(docId: $docId, videoName: $videoName, videoPublishedAt: $videoPublishedAt, videoPublishedAt: $videoPublishedAt, videoCommentCount: $videoCommentCount, videoDuration: $videoDuration, viewDuration: $viewDuration, viewer: $viewer, amount: $amount  , videoId: $videoId, videoViewCount: $videoViewCount, videoLikeCount: $videoLikeCount, videoThumbnailUrl: $videoThumbnailUrl, videoOwnerChannelId: $videoOwnerChannelId)';
+    return 'PublishedVideo(docId: $docId, videoName: $videoName, videoPublishedAt: $videoPublishedAt, videoPublishedAt: $videoPublishedAt, videoCommentCount: $videoCommentCount, videoDuration: $videoDuration, viewDuration: $viewDuration, viewer: $viewer, amount: $amount, watcher: $watcher  , videoId: $videoId, videoViewCount: $videoViewCount, videoLikeCount: $videoLikeCount, videoThumbnailUrl: $videoThumbnailUrl, videoOwnerChannelId: $videoOwnerChannelId)';
   }
 
   @override
@@ -169,6 +176,7 @@ class PublishedVideo {
         other.viewDuration == viewDuration &&
         other.viewer == viewer &&
         other.amount == amount &&
+        other.watcher == watcher &&
         other.videoId == videoId &&
         other.videoViewCount == videoViewCount &&
         other.videoLikeCount == videoLikeCount &&
@@ -187,6 +195,7 @@ class PublishedVideo {
         viewDuration.hashCode ^
         viewer.hashCode ^
         amount.hashCode ^
+        watcher.hashCode ^
         videoId.hashCode ^
         videoViewCount.hashCode ^
         videoLikeCount.hashCode ^

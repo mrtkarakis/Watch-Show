@@ -62,7 +62,7 @@ class Video {
       title: doc['title'],
       thumbnailUrl: doc['thumbnailUrl'],
       channelTitle: doc['channelTitle'],
-      duration: Duration(seconds: doc['duration'] as int),
+      duration: Duration(seconds: doc['duration']),
       publishedAt: DateTime.fromMillisecondsSinceEpoch(
           doc['publishedAt'].seconds * 1000),
       videoOwnerChannelId: doc['videoOwnerChannelId'].toString(),

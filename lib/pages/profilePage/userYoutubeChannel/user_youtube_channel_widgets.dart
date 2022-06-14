@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:watch_and_show/core/animated_button.dart';
+import 'package:watch_and_show/core/video_thumbnail.dart';
 import 'package:watch_and_show/extensions/duration.dart';
 import 'package:watch_and_show/extensions/string.dart';
 import 'package:watch_and_show/global.dart';
@@ -18,13 +19,11 @@ class UserYoutubeChannelWidgets {
       return ClipRRect(
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         child: Hero(
-          tag: video.thumbnailUrl!,
-          child: Image(
-            width: deviceStore.width,
-            image: NetworkImage(video.thumbnailUrl!),
-            fit: BoxFit.fitWidth,
-          ),
-        ),
+            tag: video.thumbnailUrl!,
+            child: VideoThumbnail(
+              src: video.thumbnailUrl ?? "",
+              width: double.infinity,
+            )),
       );
     }
 
@@ -77,7 +76,10 @@ class UserYoutubeChannelWidgets {
             PublishedVideo publishedVideo =
                 PublishedVideo.fromVideoData(docId: docId, video: video);
 
-            dbServices.publishedVideoDb.doc(docId).set(publishedVideo.toMap());
+            await dbServices.publishedVideoDb
+                .doc(docId)
+                .set(publishedVideo.toMap());
+            Navigator.pop(context);
           }
         },
       );

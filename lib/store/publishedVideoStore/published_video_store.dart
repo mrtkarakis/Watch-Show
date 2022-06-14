@@ -8,7 +8,7 @@ abstract class _PublishedVideoStoreBase with Store {
   int viewer = 500;
 
   @observable
-  int? totalCreditAmount;
+  int totalCreditAmount = (90 * 500);
 
   @action
   int setTotalCreditAmount() => totalCreditAmount = duration * viewer;

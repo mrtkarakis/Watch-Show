@@ -13,13 +13,13 @@ mixin _$PublishedVideoStore on _PublishedVideoStoreBase, Store {
       name: '_PublishedVideoStoreBase.totalCreditAmount', context: context);
 
   @override
-  int? get totalCreditAmount {
+  int get totalCreditAmount {
     _$totalCreditAmountAtom.reportRead();
     return super.totalCreditAmount;
   }
 
   @override
-  set totalCreditAmount(int? value) {
+  set totalCreditAmount(int value) {
     _$totalCreditAmountAtom.reportWrite(value, super.totalCreditAmount, () {
       super.totalCreditAmount = value;
     });
