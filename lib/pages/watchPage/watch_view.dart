@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:watch_and_show/global.dart';
 import 'package:watch_and_show/models/published_video.dart';
@@ -69,9 +70,15 @@ class _WatchViewPageState extends State<WatchViewPage> {
         CurrentPosition(),
       ],
       onEnded: (data) {
-        dbServices.publishedVideoDb
-            .doc(video.docId)
-            .update({"watcher": (video.watcher ?? 0) + 1});
+        String userId = userStore.user.uid;
+        dbServices.publishedVideoDb.doc(video.docId).update({
+          "watcher": FieldValue.arrayUnion([userId]),
+        });
+        dbServices.usersDb.doc(userId).update(
+          {
+            "watchVideos": FieldValue.arrayUnion([video.videoId]),
+          },
+        );
       },
     );
     return Scaffold(

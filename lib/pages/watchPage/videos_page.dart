@@ -20,31 +20,23 @@ class VideosPage extends StatefulWidget {
 class _VideosPageState extends State<VideosPage> {
   @override
   Widget build(BuildContext context) {
+    videosStore.getVideos();
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FutureBuilder(
-                  future: dbServices.publishedVideoDb.get(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    List videos = [];
-                    if (snapshot.hasData) {
-                      videos = snapshot.data.docs;
-                    }
-                    return ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: videos.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          PublishedVideo video =
-                              PublishedVideo.fromFirebase(videos[index].data());
+              ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: videosStore.videos.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    PublishedVideo video = videosStore.videos[index];
 
-                          return VideoDetailBox(video: video);
-                        });
-                  })
+                    return VideoDetailBox(video: video);
+                  }),
             ],
           ),
         ),

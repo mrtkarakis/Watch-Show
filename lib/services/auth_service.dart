@@ -52,6 +52,7 @@ Future<void> createAccountFirebase(
       userId: user.uid,
       email: user.email,
       credits: null,
+      watchVideos: [],
       provider: Provider.email,
       dateOfRegistration: DateTime.now(),
     );

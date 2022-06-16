@@ -170,7 +170,7 @@ class __UserInfoContainerState extends State<_UserInfoContainer> {
                           borderRadius: BorderRadius.circular(12),
                           color: Colors.white10),
                       child: Text(
-                        "${_userInfo.data} asdsdadsasaddsadsa dsa",
+                        "${_userInfo.data}",
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),

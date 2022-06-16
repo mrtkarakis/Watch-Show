@@ -1,16 +1,3 @@
-// Map<String, dynamic> publishedVideo = {
-//           "docId": docId,
-//           "videoName": video.title,
-//           "videoPublishedAt": video.publishedAt,
-//           "videoCommentCount": video.commentCount,
-//           "videoDuration": video.duration?.inSeconds,
-//           "videoId": video.id,
-//           "videoViewCount": video.viewCount,
-//           "videoLikeCount": video.likeCount,
-//           "videoThumbnailUrl": video.thumbnailUrl,
-//           "videoOwnerChannelId": video.videoOwnerChannelId,
-//         };
-
 import 'dart:convert';
 
 import 'package:watch_and_show/global.dart';
@@ -27,7 +14,7 @@ class PublishedVideo {
   final int? viewDuration;
   final int? viewer;
   final int? amount;
-  final int? watcher;
+  final List<dynamic>? watcher;
   final String? videoId;
   final int? videoViewCount;
   final int? videoLikeCount;
@@ -61,7 +48,7 @@ class PublishedVideo {
     int? viewDuration,
     int? viewer,
     int? amount,
-    int? watcher,
+    List<dynamic>? watcher,
     String? videoId,
     int? videoViewCount,
     int? videoLikeCount,
@@ -119,7 +106,7 @@ class PublishedVideo {
       viewDuration: publishedVideoStore.duration,
       viewer: publishedVideoStore.viewer,
       amount: publishedVideoStore.totalCreditAmount,
-      watcher: 0,
+      watcher: [],
       videoId: video.id,
       videoViewCount: video.viewCount,
       videoLikeCount: video.likeCount,

@@ -7,13 +7,16 @@ class CurrentUser {
   final String? name;
   final String? email;
   final double? credits;
+  final List<dynamic>? watchVideos;
   final Provider? provider;
   final DateTime? dateOfRegistration;
+
   CurrentUser({
     required this.userId,
     required this.name,
     required this.email,
     required this.credits,
+    required this.watchVideos,
     required this.provider,
     required this.dateOfRegistration,
   });
@@ -24,6 +27,7 @@ class CurrentUser {
       name: map['name'],
       email: map['email'],
       credits: map['credits'] ?? 0,
+      watchVideos: map['watchVideos'] ?? <String>[],
       provider: map['provider'] == "email" ? Provider.email : Provider.google,
       dateOfRegistration: DateTime.fromMillisecondsSinceEpoch(
           map['dateOfRegistration'].seconds * 1000),
@@ -34,6 +38,7 @@ class CurrentUser {
     String? userId,
     String? name,
     String? email,
+    List<String>? watchVideos,
     double? credits,
     Provider? provider,
     DateTime? dateOfRegistration,
@@ -41,6 +46,7 @@ class CurrentUser {
     return CurrentUser(
       userId: userId ?? this.userId,
       name: name ?? this.name,
+      watchVideos: watchVideos ?? this.watchVideos,
       email: email ?? this.email,
       credits: credits ?? this.credits,
       provider: provider ?? this.provider,
@@ -53,6 +59,7 @@ class CurrentUser {
       'userId': userId,
       'name': name,
       'email': email,
+      'watchVideos': watchVideos,
       'credits': credits,
       'provider': provider == Provider.email ? "email" : "google",
       'dateOfRegistration': dateOfRegistration,
@@ -66,7 +73,7 @@ class CurrentUser {
 
   @override
   String toString() {
-    return 'CurrentUser(userId: $userId,name: $name, email: $email, credits: $credits, provider: $provider, dateOfRegistration: $dateOfRegistration)';
+    return 'CurrentUser(userId: $userId,name: $name, email: $email, watchVideos: $watchVideos, credits: $credits, provider: $provider, dateOfRegistration: $dateOfRegistration)';
   }
 
   @override
@@ -75,6 +82,7 @@ class CurrentUser {
 
     return other is CurrentUser &&
         other.userId == userId &&
+        other.watchVideos == watchVideos &&
         other.name == name &&
         other.email == email &&
         other.credits == credits &&
@@ -88,6 +96,7 @@ class CurrentUser {
         name.hashCode ^
         email.hashCode ^
         credits.hashCode ^
+        watchVideos.hashCode ^
         provider.hashCode ^
         dateOfRegistration.hashCode;
   }
