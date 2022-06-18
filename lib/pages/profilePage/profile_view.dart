@@ -42,6 +42,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               settingButton(buttonName: "Settings", onPressed: () {}),
+              const Spacer(),
+              TextButton(
+                  onPressed: () {
+                    auth.signOut();
+                  },
+                  child: const Text("Log Out")),
+              const SizedBox(height: 35),
             ],
           ),
         ),
