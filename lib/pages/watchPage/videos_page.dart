@@ -20,25 +20,19 @@ class VideosPage extends StatefulWidget {
 class _VideosPageState extends State<VideosPage> {
   @override
   Widget build(BuildContext context) {
-    videosStore.getVideos();
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: videosStore.videos.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    PublishedVideo video = videosStore.videos[index];
+          child: ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: videosStore.videos.length,
+              itemBuilder: (BuildContext context, int index) {
+                PublishedVideo video = videosStore.videos[index];
 
-                    return VideoDetailBox(video: video);
-                  }),
-            ],
-          ),
+                return VideoDetailBox(video: video);
+              }),
         ),
       ),
       floatingActionButton: FloatingActionButton(

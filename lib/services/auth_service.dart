@@ -56,6 +56,7 @@ Future<void> createAccountFirebase(
       provider: Provider.email,
       dateOfRegistration: DateTime.now(),
     );
+    userStore.setUser(user);
     userStore.userData = currentUser;
     await dbServices.usersDb
         .doc(currentUser.userId)

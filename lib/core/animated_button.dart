@@ -83,6 +83,7 @@ class _AnimatedButtonState extends State<AnimatedButton> {
               //   });
               // } else if (!widget.loading) {
               setState(() => animated = false);
+              // Future.microtask(() => setState(() => animated = false));
               isTimer = false;
               // }
             });

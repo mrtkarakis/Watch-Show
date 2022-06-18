@@ -51,6 +51,7 @@ Future<void> _authState() async {
     await sharedPreferences!.setInt("initScreen", 1);
   } else if (auth.currentUser != null) {
     userStore.setUser(auth.currentUser!);
+    videosStore.getVideos();
 
     await dbServices.usersDb
         .where("userId", isEqualTo: userStore.user.uid)
