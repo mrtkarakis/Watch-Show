@@ -10,9 +10,11 @@ abstract class _VideosStoreBase with Store {
 
   @action
   void getVideos() {
+    developerLog("call getVideos", name: "getVideos");
     List<String> where = [userStore.user.uid];
     dbServices.publishedVideoDb
         .where("watcher", isLessThan: where)
+        .limit(20)
         .get()
         .then((value) {
       videos.clear();
