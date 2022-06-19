@@ -18,6 +18,7 @@ Future<void> signInFirebase(
       .then((value) async {
     CurrentUser? currentUser;
     User user = value.user!;
+    userStore.setUser(user);
     await dbServices.usersDb.doc(user.uid).get().then(
       (data) {
         Map<String, dynamic>? userData = (data.data());
