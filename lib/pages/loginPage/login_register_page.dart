@@ -13,8 +13,7 @@ class LoginRegisterPage extends StatelessWidget {
     deviceStore.setDeviceSize(context);
 
     Widget loginOrSignInButton({required LoginPageType loginPageType}) {
-      final String text =
-          loginPageType == LoginPageType.create ? "Create Account" : "Sign In";
+      final String text = loginPageType.text;
       return AnimatedButton(
         text: text,
         loading: false,

@@ -68,7 +68,8 @@ Future<void> createAccountFirebase(
   });
 }
 
-void _navigationHomePage(BuildContext context) => Navigator.push(
+void _navigationHomePage(BuildContext context) => Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (_) => const BottomBarNavigation()),
+      (route) => false,
     );

@@ -4,6 +4,9 @@ enum Provider {
 }
 
 enum LoginPageType {
-  create,
-  signIn,
+  create("Create Account"),
+  signIn("Sign In");
+
+  final String text;
+  const LoginPageType(this.text);
 }

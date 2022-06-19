@@ -40,6 +40,15 @@ class LoginPage extends StatelessWidget {
                   fieldType: _FieldType.password,
                 ),
                 const Spacer(flex: 2),
+                // AnimatedButton(
+                //   text: "text",
+                //   onPressed: () {
+                //     deviceStore.changeLoading(true);
+                //     Future.delayed(const Duration(milliseconds: 3444), () {
+                //       deviceStore.changeLoading(false);
+                //     });
+                //   },
+                // ),
                 button(),
                 const Spacer(flex: 3),
               ],
@@ -95,20 +104,19 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget button() {
-    final String buttonText =
-        loginPageType == LoginPageType.create ? "Create Account" : "Sign In";
+    final String buttonText = loginPageType.text;
     return AnimatedButton(
       text: buttonText,
-
-      onPressed: () {
+      onPressed: () async {
+        deviceStore.changeLoading(true);
         String email = _emailTextEditingController.text;
         String password = _passwordTextEditingController.text;
 
         if (loginPageType == LoginPageType.signIn) {
-          signInFirebase(email: email, password: password);
+          await signInFirebase(email: email, password: password);
         }
         if (loginPageType == LoginPageType.create) {
-          createAccountFirebase(
+          await createAccountFirebase(
               email: email,
               password: password,
               name: _nameTextEditingController.text);
@@ -116,8 +124,6 @@ class LoginPage extends StatelessWidget {
         deviceStore.changeLoading(false);
       },
       loading: true,
-
-      // child: Text(buttonText),
     );
   }
 }

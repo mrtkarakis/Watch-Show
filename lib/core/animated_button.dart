@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 import 'package:watch_and_show/global.dart';
 import 'package:watch_and_show/styles/app_theme.dart';
@@ -142,15 +143,21 @@ class _AnimatedButtonState extends State<AnimatedButton> {
                       }
                     }
                   },
-            child: widget.loading && deviceStore.loading
-                ? const Center(child: CircularProgressIndicator())
-                : Text(
-                    widget.text,
-                    style: TextStyle(
-                        color: widget.textColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600),
-                  ),
+            child: Observer(
+              builder: (_) {
+                bool loading = widget.loading && deviceStore.loading;
+                print("loading  $loading");
+                return loading
+                    ? const Center(child: CircularProgressIndicator())
+                    : Text(
+                        widget.text,
+                        style: TextStyle(
+                            color: widget.textColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600),
+                      );
+              },
+            ),
             style: ElevatedButton.styleFrom(
               alignment: widget.textAlignment,
               elevation: 0,
