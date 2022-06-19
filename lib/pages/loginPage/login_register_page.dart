@@ -39,17 +39,6 @@ class LoginRegisterPage extends StatelessWidget {
             const Spacer(flex: 2),
             imageBox(),
             const Spacer(flex: 2),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text(
-                "Google",
-                style: TextStyle(color: Colors.black),
-              ),
-              style: ElevatedButton.styleFrom(
-                  minimumSize: Size(deviceStore.width / 1.3, 55),
-                  primary: Colors.white),
-            ),
-            const Spacer(flex: 2),
             loginOrSignInButton(loginPageType: LoginPageType.create),
             const Spacer(),
             loginOrSignInButton(loginPageType: LoginPageType.signIn),
@@ -57,6 +46,19 @@ class LoginRegisterPage extends StatelessWidget {
           ],
         ),
       )),
+    );
+  }
+
+  ElevatedButton loginWithGoogle() {
+    return ElevatedButton(
+      onPressed: () {},
+      child: const Text(
+        "Google",
+        style: TextStyle(color: Colors.black),
+      ),
+      style: ElevatedButton.styleFrom(
+          minimumSize: Size(deviceStore.width / 1.3, 55),
+          primary: Colors.white),
     );
   }
 

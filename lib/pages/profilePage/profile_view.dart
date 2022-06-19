@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:watch_and_show/global.dart';
+import 'package:watch_and_show/pages/loginPage/login_register_page.dart';
 import 'package:watch_and_show/pages/profilePage/userYoutubeChannel/user_youtube_channel_view.dart';
 import 'package:watch_and_show/styles/app_theme.dart';
 
@@ -46,6 +47,12 @@ class _ProfilePageState extends State<ProfilePage> {
               TextButton(
                   onPressed: () {
                     auth.signOut();
+
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const LoginRegisterPage()),
+                        (route) => false);
                   },
                   child: const Text("Log Out")),
               const SizedBox(height: 35),
