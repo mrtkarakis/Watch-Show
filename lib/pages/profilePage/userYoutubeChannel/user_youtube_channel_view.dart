@@ -88,53 +88,56 @@ class _UserYouTubeChannelPageState extends State<UserYouTubeChannelPage> {
       //     builder: (_) => VideoScreen(id: video.id),
       //   ),
       // ),
-      child: TextButton(
-        onPressed: () {
-          _userYoutubeChannelWidgets.videoDetail(
-            context: context,
-            video: video,
-          );
-        },
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-          padding: const EdgeInsets.all(10.0),
-          height: 140.0,
-          decoration: const BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                offset: Offset(0, 1),
-                blurRadius: 6.0,
-              ),
-            ],
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              VideoThumbnail(src: video.thumbnailUrl ?? ""),
-              const SizedBox(width: 10.0),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        video.title!,
-                        style: const TextStyle(
-                          fontSize: 12.0,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: TextButton(
+          onPressed: () {
+            _userYoutubeChannelWidgets.videoDetail(
+              context: context,
+              video: video,
+            );
+          },
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+            padding: const EdgeInsets.all(2.0),
+            height: 140.0,
+            decoration: const BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  offset: Offset(0, 1),
+                  blurRadius: 6.0,
+                ),
+              ],
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                VideoThumbnail(src: video.thumbnailUrl ?? ""),
+                const SizedBox(width: 10.0),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          video.title!,
+                          style: const TextStyle(
+                            fontSize: 12.0,
+                          ),
+                          maxLines: 2,
                         ),
-                        maxLines: 2,
-                      ),
-                      Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(video.duration!.toText())),
-                      FittedBox(child: Text(video.publishedAt.toString())),
-                      FittedBox(child: Text(video.viewCount.toString())),
-                    ],
+                        Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(video.duration!.toText())),
+                        FittedBox(child: Text(video.publishedAt.toString())),
+                        FittedBox(child: Text(video.viewCount.toString())),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

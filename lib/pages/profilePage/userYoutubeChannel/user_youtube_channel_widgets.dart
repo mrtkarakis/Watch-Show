@@ -70,6 +70,7 @@ class UserYoutubeChannelWidgets {
       return AnimatedButton(
         text: "Publish",
         onPressed: () async {
+          deviceStore.changeLoading(true);
           bool hasVideo = await checkHasVideo(video.id ?? "") as bool;
           if (!hasVideo) {
             final String docId = dbServices.publishedVideoDb.doc().id;
@@ -79,6 +80,7 @@ class UserYoutubeChannelWidgets {
             await dbServices.publishedVideoDb
                 .doc(docId)
                 .set(publishedVideo.toMap());
+            deviceStore.changeLoading(false);
             Navigator.pop(context);
           }
         },

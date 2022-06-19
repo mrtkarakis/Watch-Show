@@ -6,6 +6,7 @@ import 'video.dart';
 
 class PublishedVideo {
   final String? docId;
+  final String? publisherUserId;
   final String? videoName;
   final DateTime? videoPublishedAt;
   final DateTime? addTime;
@@ -22,6 +23,7 @@ class PublishedVideo {
   final String? videoOwnerChannelId;
   PublishedVideo({
     this.docId,
+    this.publisherUserId,
     this.videoName,
     this.videoPublishedAt,
     this.addTime,
@@ -40,6 +42,7 @@ class PublishedVideo {
 
   PublishedVideo copyWith({
     String? docId,
+    String? publisherUserId,
     String? videoName,
     DateTime? videoPublishedAt,
     DateTime? addTime,
@@ -57,6 +60,7 @@ class PublishedVideo {
   }) {
     return PublishedVideo(
       docId: docId ?? this.docId,
+      publisherUserId: publisherUserId ?? this.publisherUserId,
       videoName: videoName ?? this.videoName,
       videoPublishedAt: videoPublishedAt ?? this.videoPublishedAt,
       addTime: addTime ?? this.addTime,
@@ -77,6 +81,7 @@ class PublishedVideo {
   Map<String, dynamic> toMap() {
     return {
       'docId': docId,
+      'publisherUserId': publisherUserId,
       'videoName': videoName,
       'videoPublishedAt': videoPublishedAt,
       'addTime': addTime,
@@ -98,6 +103,7 @@ class PublishedVideo {
       {required String docId, required Video video}) {
     return PublishedVideo(
       docId: docId,
+      publisherUserId: userStore.user.uid,
       videoName: video.title,
       videoPublishedAt: video.publishedAt,
       addTime: DateTime.now(),
@@ -118,6 +124,7 @@ class PublishedVideo {
   factory PublishedVideo.fromFirebase(Map<String, dynamic> map) {
     return PublishedVideo(
       docId: map['docId'],
+      publisherUserId: map['publisherUserId'],
       videoName: map['videoName'],
       videoPublishedAt: map['videoPublishedAt'] != null
           ? DateTime.fromMillisecondsSinceEpoch(map['videoPublishedAt'].seconds)
@@ -146,7 +153,7 @@ class PublishedVideo {
 
   @override
   String toString() {
-    return 'PublishedVideo(docId: $docId, videoName: $videoName, videoPublishedAt: $videoPublishedAt, videoPublishedAt: $videoPublishedAt, videoCommentCount: $videoCommentCount, videoDuration: $videoDuration, viewDuration: $viewDuration, viewer: $viewer, amount: $amount, watcher: $watcher  , videoId: $videoId, videoViewCount: $videoViewCount, videoLikeCount: $videoLikeCount, videoThumbnailUrl: $videoThumbnailUrl, videoOwnerChannelId: $videoOwnerChannelId)';
+    return 'PublishedVideo(docId: $docId, publisherUserId: $publisherUserId  , videoName: $videoName, videoPublishedAt: $videoPublishedAt, videoPublishedAt: $videoPublishedAt, videoCommentCount: $videoCommentCount, videoDuration: $videoDuration, viewDuration: $viewDuration, viewer: $viewer, amount: $amount, watcher: $watcher  , videoId: $videoId, videoViewCount: $videoViewCount, videoLikeCount: $videoLikeCount, videoThumbnailUrl: $videoThumbnailUrl, videoOwnerChannelId: $videoOwnerChannelId)';
   }
 
   @override
@@ -155,6 +162,7 @@ class PublishedVideo {
 
     return other is PublishedVideo &&
         other.docId == docId &&
+        other.publisherUserId == publisherUserId &&
         other.videoName == videoName &&
         other.videoPublishedAt == videoPublishedAt &&
         other.addTime == addTime &&
@@ -174,6 +182,7 @@ class PublishedVideo {
   @override
   int get hashCode {
     return docId.hashCode ^
+        publisherUserId.hashCode ^
         videoName.hashCode ^
         videoPublishedAt.hashCode ^
         addTime.hashCode ^

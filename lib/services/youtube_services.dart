@@ -16,40 +16,36 @@ class YoutubeService {
         .get()
         .then((value) async {
       if (value.size == 0) {
-        await APIService.instance
-            .fetchChannel(channelId: 'UCVj9dwfXRmwyYmiWnk-qCCQ');
+        channelStore.hasDataFirebase.channels = false;
       } else {
+        channelStore.hasDataFirebase.channels = true;
+
         channelStore.channel = Channel.fromFirebase(value.docs.first.data());
       }
     });
 
-    await dbServices.videosDb
-        .where("userId", isEqualTo: userStore.userData!.userId)
-        .limit(1)
-        .get()
-        .then((value) async {
-      if (value.size == 0) {
-        await APIService.instance.fetchVideosFromPlaylist(
-          playlistId: channelStore.channel!.uploadPlaylistId!,
-        );
-      } else {
-        Map<String, Video> videos = {};
+    if (channelStore.hasDataFirebase.channels) {
+      await dbServices.videosDb
+          .where("userId", isEqualTo: userStore.userData!.userId)
+          .limit(1)
+          .get()
+          .then((value) async {
+        if (value.size == 0) {
+          await APIService.instance.fetchVideosFromPlaylist(
+            playlistId: channelStore.channel!.uploadPlaylistId!,
+          );
+        } else {
+          Map<String, Video> videos = {};
 
-        List dataVideos = value.docs.first.data()["videos"];
-        for (var element in dataVideos) {
-          videos
-              .addAll({element["id"].toString(): Video.fromFirebase(element)});
+          List dataVideos = value.docs.first.data()["videos"];
+          for (var element in dataVideos) {
+            videos.addAll(
+                {element["id"].toString(): Video.fromFirebase(element)});
+          }
+
+          channelStore.channel!.videos = videos;
         }
-
-        // .forEach(
-        //   (key, value) {
-        //     if (key == "videos") {
-
-        //     }
-        //   },
-        // );
-        channelStore.channel!.videos = videos;
-      }
-    });
+      });
+    }
   }
 }

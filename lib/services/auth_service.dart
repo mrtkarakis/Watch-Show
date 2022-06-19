@@ -5,6 +5,7 @@ import 'package:watch_and_show/models/enums.dart';
 import 'package:watch_and_show/models/user.dart';
 import 'package:watch_and_show/pages/bottomNavigationBar/bottom_navigation_bar.dart';
 import 'package:watch_and_show/services/global_services.dart';
+import 'package:watch_and_show/services/youtube_services.dart';
 
 Future<void> signInFirebase(
     {required String email, required String password}) async {
@@ -20,14 +21,16 @@ Future<void> signInFirebase(
     User user = value.user!;
     userStore.setUser(user);
     await dbServices.usersDb.doc(user.uid).get().then(
-      (data) {
+      (data) async {
         Map<String, dynamic>? userData = (data.data());
         currentUser = CurrentUser.fromMap(userData as Map<String, dynamic>);
         userStore.userData = currentUser;
+        await YoutubeService.instance.initChannel();
 
         _navigationHomePage(NavigationService.navigatorKey.currentContext!);
       },
     );
+
     developerLog(currentUser.toString(), name: "signInFirebase");
   }).catchError((onError) {
     developerLog("$onError", name: "signInFirebase");

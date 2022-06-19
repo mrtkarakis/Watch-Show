@@ -1,6 +1,7 @@
 import 'package:mobx/mobx.dart';
 import 'package:watch_and_show/global.dart';
 import 'package:watch_and_show/models/published_video.dart';
+import 'package:watch_and_show/models/video.dart';
 part 'videos_store.g.dart';
 
 class VideosStore = _VideosStoreBase with _$VideosStore;
@@ -14,15 +15,18 @@ abstract class _VideosStoreBase with Store {
     List<String> where = [userStore.user.uid];
     dbServices.publishedVideoDb
         .where("watcher", isLessThan: where)
-        .limit(20)
+        .limit(40)
         .get()
         .then((value) {
       videos.clear();
       for (var element in value.docs) {
         Map<String, dynamic> data = element.data();
-        videos.add(PublishedVideo.fromFirebase(data));
+        PublishedVideo publishedVideo = PublishedVideo.fromFirebase(data);
+        if (publishedVideo.publisherUserId != userStore.user.uid) {
+          videos.add(publishedVideo);
+        }
       }
-      print(videos);
+      developerLog("Videos Length ${videos.length}");
     });
   }
 }

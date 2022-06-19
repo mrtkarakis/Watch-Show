@@ -45,9 +45,13 @@ class _ProfilePageState extends State<ProfilePage> {
               settingButton(buttonName: "Settings", onPressed: () {}),
               const Spacer(),
               TextButton(
-                  onPressed: () {
-                    auth.signOut();
+                  onPressed: () async {
+                    deviceStore.changeLoading(true);
+                    await auth.signOut();
+                    channelStore.channel = null;
+                    userStore.userData = null;
 
+                    deviceStore.changeLoading(false);
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
