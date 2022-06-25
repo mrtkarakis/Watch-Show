@@ -106,7 +106,7 @@ class _AddedVideoLinkPageState extends State<AddedVideoLinkPage> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            VideoThumbnail(src: video.thumbnailUrl ?? ""),
+            VideoThumbnail(src: video.snippet!.thumbnails!.medium?.url ?? ""),
             const SizedBox(width: 10.0),
             Expanded(
               child: Padding(
@@ -114,7 +114,7 @@ class _AddedVideoLinkPageState extends State<AddedVideoLinkPage> {
                 child: Column(
                   children: [
                     Text(
-                      video.title!,
+                      video.snippet!.title!,
                       style: const TextStyle(
                         fontSize: 12.0,
                       ),

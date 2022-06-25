@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:developer' as developer;
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:watch_and_show/services/api_services.dart';
 import 'package:watch_and_show/services/databases_services.dart';
 import 'package:watch_and_show/store/channelStore/channel_store.dart';
 import 'package:watch_and_show/store/deviceStore/device_store.dart';
@@ -21,7 +22,7 @@ FirebaseAuth auth = FirebaseAuth.instance;
 
 //database
 DatabasesServices dbServices = DatabasesServices();
-
+APIService apiService = APIService.instance;
 //log
 void developerLog(
   String? message, {

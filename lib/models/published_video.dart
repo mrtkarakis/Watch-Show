@@ -1,5 +1,6 @@
 import 'dart:convert';
-
+import 'package:intl/intl.dart';
+import 'package:iso_duration_parser/iso_duration_parser.dart';
 import 'package:watch_and_show/global.dart';
 
 import 'video.dart';
@@ -101,23 +102,31 @@ class PublishedVideo {
 
   factory PublishedVideo.fromVideoData(
       {required String docId, required Video video}) {
+    DateFormat publishedDateFormat = DateFormat("yyyy-MM-ddThh:mm:ssZ");
+    DateTime publishDate =
+        publishedDateFormat.parse(video.snippet!.publishedAt.toString());
+    var videoDuration = Duration(
+        seconds: IsoDuration.parse(video.contentDetails!.duration!.toString())
+            .toSeconds()
+            .toInt());
+
     return PublishedVideo(
       docId: docId,
       publisherUserId: userStore.user.uid,
-      videoName: video.title,
-      videoPublishedAt: video.publishedAt,
+      videoName: video.snippet?.title,
+      videoPublishedAt: publishDate,
       addTime: DateTime.now(),
-      videoCommentCount: video.commentCount,
-      videoDuration: video.duration?.inSeconds,
+      videoCommentCount: int.tryParse(video.statistics?.commentCount ?? "0"),
+      videoDuration: videoDuration.inSeconds,
       viewDuration: publishedVideoStore.duration,
       viewer: publishedVideoStore.viewer,
       amount: publishedVideoStore.totalCreditAmount,
       watcher: [],
       videoId: video.id,
-      videoViewCount: video.viewCount,
-      videoLikeCount: video.likeCount,
-      videoThumbnailUrl: video.thumbnailUrl,
-      videoOwnerChannelId: video.videoOwnerChannelId,
+      videoViewCount: int.tryParse(video.statistics?.viewCount ?? "0"),
+      videoLikeCount: int.tryParse(video.statistics?.likeCount ?? "0"),
+      videoThumbnailUrl: video.snippet!.thumbnails?.medium?.url,
+      videoOwnerChannelId: video.snippet?.channelId,
     );
   }
 

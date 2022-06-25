@@ -37,6 +37,7 @@ class APIService {
       'part': 'snippet, contentDetails, statistics',
       'id': channelId,
       'key': youtubeApiKey,
+      'type': "channel"
     };
     Uri uri = Uri.https(
       _baseUrl,
@@ -94,22 +95,23 @@ class APIService {
       channelStore.channel!.videos = {};
       List<String> videoIds = [];
       for (var video in videosJson) {
+        final String videoId = video['snippet']['resourceId']['videoId'];
         channelStore.channel!.videos?.addAll(
           {
-            video['snippet']['resourceId']['videoId']:
-                Video.fromMap(video['snippet'])
+            videoId: Video.fromJson(video),
           },
         );
-        videoIds.add(video["snippet"]['resourceId']['videoId']);
+
+        videoIds.add(videoId);
       }
-      await fetchVideosDuration(videoIds.join(","));
+      await fetchVideos(videoIds.join(","));
 
       Map<String, dynamic> setFirebaseData = {
         "userId": userStore.userData!.userId
       };
       List<Map<String, dynamic>> videos = [];
       for (var element in channelStore.channel!.videos!.values.toList()) {
-        Map<String, dynamic> v = element.toMap();
+        Map<String, dynamic> v = element.toJson();
         // setFirebaseData[element.id.toString()]["dateOfUpload"] = DateTime.now();
         v["dateOfUpload"] = DateTime.now();
         Future.delayed(const Duration(microseconds: 100));
@@ -133,61 +135,95 @@ class APIService {
     }
   }
 
-// https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=TruIq5IxuiU,-VoFbH8jTzE,RPNDXrAvAMg,gmQmYc9-zcg&key=AIzaSyAywB9VuAeri3ArItxRCYp-M3hh-ldhqtI
-// https://www.googleapis.com/youtube/v3/videos?id=9bZkp7q19f0&id=Mfa3u3naQew&part=contentDetails&key=AIzaSyAywB9VuAeri3ArItxRCYp-M3hh-ldhqtI
-  Future<void> fetchVideosDuration(String ids) async {
-    // Uri uri = Uri.https(
-    //   _baseUrl,
-    //   '/youtube/v3/videos',
-    //   parameters,
-    // );
-    Uri uri = Uri.parse(
-        "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=$ids&maxResults=50&key=$youtubeApiKey");
+  // Future<void> fetchVideosDuration(String ids) async {
+  //   Map<String, String> parameters = {
+  //     'part': 'contentDetails, statistics, snippet',
+  //     'id': ids,
+  //     'maxResults': '50',
+  //     'key': youtubeApiKey,
+  //   };
+  //   Uri uri = Uri.https(
+  //     _baseUrl,
+  //     '/youtube/v3/videos',
+  //     parameters,
+  //   );
+  //   Map<String, String> headers = {
+  //     HttpHeaders.contentTypeHeader: 'application/json',
+  //   };
+
+  //   print("videoDetailUri $uri");
+  //   // Get Playlist Videos
+  //   var response = await http.get(uri, headers: headers);
+  //   if (response.statusCode == 200) {
+  //     var data = json.decode(response.body);
+
+  //     List<dynamic> videosJson = data['items'];
+
+  //     // Fetch first eight videos from uploads playlist
+  //     // List<Video> videosDetail = [];
+  //     for (var videoDeatil in videosJson) {
+  //       var videoDuration = Duration(
+  //           seconds:
+  //               IsoDuration.parse(videoDeatil["contentDetails"]["duration"])
+  //                   .toSeconds()
+  //                   .toInt());
+
+  //       channelStore.channel!.videos![videoDeatil["id"]]!.duration =
+  //           videoDuration;
+
+  //       channelStore.channel!.videos![videoDeatil["id"]]!.viewCount =
+  //           (int.tryParse(videoDeatil["statistics"]["viewCount"].toString()));
+  //       channelStore.channel!.videos![videoDeatil["id"]]!.likeCount =
+  //           (int.tryParse(videoDeatil["statistics"]["likeCount"].toString()));
+  //       channelStore.channel!.videos![videoDeatil["id"]]!.favoriteCount =
+  //           (int.tryParse(
+  //               videoDeatil["statistics"]["favoriteCount"].toString()));
+  //       channelStore.channel!.videos![videoDeatil["id"]]!.commentCount =
+  //           (int.tryParse(
+  //               videoDeatil["statistics"]["commentCount"].toString()));
+  //     }
+  //   } else {
+  //     throw json.decode(response.body)['error']['message'];
+  //   }
+  // }
+
+  Future<Map<String, Video?>> fetchVideos(String ids) async {
+    Map<String, Video?> result = {};
+    Map<String, String> parameters = {
+      'part': 'contentDetails, statistics, snippet',
+      'id': ids,
+      'maxResults': '50',
+      'key': youtubeApiKey,
+    };
+    Uri uri = Uri.https(
+      _baseUrl,
+      '/youtube/v3/videos',
+      parameters,
+    );
     Map<String, String> headers = {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
 
     print("videoDetailUri $uri");
-    // Get Playlist Videos
+    // Get Video
     var response = await http.get(uri, headers: headers);
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
 
       List<dynamic> videosJson = data['items'];
+      print("videoJson $videosJson ");
 
       // Fetch first eight videos from uploads playlist
       // List<Video> videosDetail = [];
       for (var videoDeatil in videosJson) {
-        var videoDuration = Duration(
-            seconds:
-                IsoDuration.parse(videoDeatil["contentDetails"]["duration"])
-                    .toSeconds()
-                    .toInt());
+        Video video = Video.fromJson(videoDeatil);
+        final String videoId = videoDeatil["id"];
 
-        channelStore.channel!.videos![videoDeatil["id"]]!.duration =
-            videoDuration;
-
-        channelStore.channel!.videos![videoDeatil["id"]]!.viewCount =
-            (int.tryParse(videoDeatil["statistics"]["viewCount"].toString()));
-        channelStore.channel!.videos![videoDeatil["id"]]!.likeCount =
-            (int.tryParse(videoDeatil["statistics"]["likeCount"].toString()));
-        channelStore.channel!.videos![videoDeatil["id"]]!.favoriteCount =
-            (int.tryParse(
-                videoDeatil["statistics"]["favoriteCount"].toString()));
-        channelStore.channel!.videos![videoDeatil["id"]]!.commentCount =
-            (int.tryParse(
-                videoDeatil["statistics"]["commentCount"].toString()));
-        // channelStore.channel!.videos?.addAll(videoDeatil["duration"]);
+        result[videoId] = video;
       }
-      // videosJson.forEach(
-      //   (json) => videosDetail.add(
-      //     Video.fromMap(json['contentDetails']),
-      //   ),
-      // );
-
-      // return videos;
     } else {
       throw json.decode(response.body)['error']['message'];
     }
+    return result;
   }
 }

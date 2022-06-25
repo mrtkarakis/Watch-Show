@@ -24,6 +24,22 @@ class AppTheme {
     ),
   );
 
+  final ElevatedButtonThemeData elevatedButtonThemeData =
+      ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      onPrimary: Colors.blueGrey,
+      primary: Colors.white,
+      textStyle: TextStyle(
+        color: Colors.black.withOpacity(.9),
+        fontSize: 16,
+      ),
+    ),
+  );
+
   final TextTheme textTheme = const TextTheme(
     headline1: TextStyle(
       color: Colors.white,
@@ -41,6 +57,8 @@ class AppTheme {
     return ThemeData.dark().copyWith(
       textButtonTheme: textButtonThemeData,
       textTheme: textTheme,
+      inputDecorationTheme: inputDecorationTheme,
+      elevatedButtonTheme: elevatedButtonThemeData,
     );
   }
 }

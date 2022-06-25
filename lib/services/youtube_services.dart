@@ -39,8 +39,7 @@ class YoutubeService {
 
           List dataVideos = value.docs.first.data()["videos"];
           for (var element in dataVideos) {
-            videos.addAll(
-                {element["id"].toString(): Video.fromFirebase(element)});
+            videos.addAll({element["id"].toString(): Video.fromJson(element)});
           }
 
           channelStore.channel!.videos = videos;

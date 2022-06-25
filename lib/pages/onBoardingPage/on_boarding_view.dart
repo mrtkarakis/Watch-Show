@@ -49,7 +49,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               }),
           Align(
               alignment: const Alignment(0, 0.63),
-              child: onBoardingPageCounter(pageIndex)),
+              child: PageCounter(pageIndex: pageIndex)),
           Align(
               alignment: const Alignment(0, 0.92),
               child: AnimatedButton(
@@ -121,28 +121,42 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     );
   }
 
-  Widget onBoardingPageCounter(int pageIndex) {
-    Widget circulars(int index) {
-      bool isPage = index == pageIndex;
-      return AnimatedContainer(
-        duration: const Duration(milliseconds: 222),
-        height: 8,
-        width: isPage ? 25 : 8,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(3),
-            color: isPage ? Colors.blueAccent : const Color(0XFFDBDBDB)),
-      );
-    }
+  // Widget onBoardingPageCounter(int pageIndex) {}
+}
 
+class PageCounter extends StatefulWidget {
+  const PageCounter({Key? key, required this.pageIndex}) : super(key: key);
+  final int pageIndex;
+
+  @override
+  State<PageCounter> createState() => _PageCounterState();
+}
+
+class _PageCounterState extends State<PageCounter> {
+  Widget pageIndexBox(int index) {
+    bool isPage = index == widget.pageIndex;
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 222),
+      height: 8,
+      width: isPage ? 25 : 8,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(3),
+          color: isPage ? Colors.blueAccent : const Color(0XFFDBDBDB)),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        circulars(0),
+        pageIndexBox(0),
         const SizedBox(width: 3),
-        circulars(1),
+        pageIndexBox(1),
         const SizedBox(width: 3),
-        circulars(2)
+        pageIndexBox(2)
       ],
     );
+    ;
   }
 }

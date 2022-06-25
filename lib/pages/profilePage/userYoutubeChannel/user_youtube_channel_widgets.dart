@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:iso_duration_parser/iso_duration_parser.dart';
 import 'package:watch_and_show/core/animated_button.dart';
 import 'package:watch_and_show/core/video_thumbnail.dart';
 import 'package:watch_and_show/extensions/duration.dart';
@@ -9,6 +10,7 @@ import 'package:watch_and_show/models/published_video.dart';
 import 'package:watch_and_show/models/video.dart';
 import 'package:watch_and_show/pages/profilePage/userYoutubeChannel/set_watch_video_duration.dart';
 import 'package:watch_and_show/pages/profilePage/userYoutubeChannel/set_watch_video_viewer.dart';
+import 'package:intl/intl.dart';
 
 class UserYoutubeChannelWidgets {
   videoDetail({
@@ -19,9 +21,9 @@ class UserYoutubeChannelWidgets {
       return ClipRRect(
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         child: Hero(
-            tag: video.thumbnailUrl!,
+            tag: video.snippet!.thumbnails!.medium!.url!,
             child: VideoThumbnail(
-              src: video.thumbnailUrl ?? "",
+              src: video.snippet!.thumbnails!.medium!.url ?? "",
               width: double.infinity,
             )),
       );
@@ -32,7 +34,8 @@ class UserYoutubeChannelWidgets {
         children: [
           const Icon(Icons.remove_red_eye_outlined),
           const SizedBox(width: 6),
-          VideoDetailWidgets(video: video).videoViewCount("${video.viewCount}"),
+          VideoDetailWidgets(video: video)
+              .videoViewCount("${video.statistics!.viewCount}"),
         ],
       );
     }
@@ -45,7 +48,12 @@ class UserYoutubeChannelWidgets {
           Align(
               alignment: Alignment.centerRight,
               child: Text(
-                video.duration!.toText(),
+                Duration(
+                        seconds:
+                            IsoDuration.parse(video.contentDetails!.duration!)
+                                .toSeconds()
+                                .toInt())
+                    .toText(),
                 style:
                     const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
               )),
@@ -120,7 +128,12 @@ class UserYoutubeChannelWidgets {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SetWatchVideoDuration(
-                      videoDurationSecond: video.duration!.inSeconds,
+                      videoDurationSecond: Duration(
+                              seconds: IsoDuration.parse(
+                                      video.contentDetails!.duration!)
+                                  .toSeconds()
+                                  .toInt())
+                          .inSeconds,
                     ),
                     const SetWatchVideoViewer()
                   ],
@@ -169,15 +182,18 @@ class VideoDetailWidgets {
   });
 
   Text viedeoPublishedDate(Video video) {
+    DateFormat publishedDateFormat = DateFormat("yyyy-MM-ddThh:mm:ssZ");
+    DateTime publishDate =
+        publishedDateFormat.parse(video.snippet!.publishedAt.toString());
     return Text(
-      "${video.publishedAt?.day.toString().withZero()}/${video.publishedAt?.month.toString().withZero()}/${video.publishedAt?.year.toString().withZero()}",
+      "${publishDate.day.toString().withZero()}/${publishDate.month.toString().withZero()}/${publishDate.year.toString().withZero()}",
       style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
     );
   }
 
   Widget videoTitle() {
     return Text(
-      "${video?.title} ",
+      "${video?.snippet!.title}",
       style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       maxLines: 2,
     );
@@ -185,7 +201,7 @@ class VideoDetailWidgets {
 
   Text videoViewCount(String? videoViewCount) {
     return Text(
-      "${video?.viewCount}",
+      "${video?.statistics?.viewCount}",
       style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
     );
   }

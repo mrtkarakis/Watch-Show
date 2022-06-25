@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:iso_duration_parser/iso_duration_parser.dart';
 import 'package:watch_and_show/core/custom_appbar.dart';
 import 'package:watch_and_show/core/video_thumbnail.dart';
 import 'package:watch_and_show/extensions/duration.dart';
 import 'package:watch_and_show/global.dart';
 import 'package:watch_and_show/models/video.dart';
 import 'package:watch_and_show/pages/profilePage/userYoutubeChannel/user_youtube_channel_widgets.dart';
+import 'package:watch_and_show/services/api_services.dart';
 
 class UserYouTubeChannelPage extends StatefulWidget {
   const UserYouTubeChannelPage({Key? key}) : super(key: key);
@@ -113,7 +115,8 @@ class _UserYouTubeChannelPageState extends State<UserYouTubeChannelPage> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                VideoThumbnail(src: video.thumbnailUrl ?? ""),
+                VideoThumbnail(
+                    src: video.snippet?.thumbnails?.medium?.url ?? ""),
                 const SizedBox(width: 10.0),
                 Expanded(
                   child: Padding(
@@ -121,17 +124,26 @@ class _UserYouTubeChannelPageState extends State<UserYouTubeChannelPage> {
                     child: Column(
                       children: [
                         Text(
-                          video.title!,
+                          video.snippet?.title ?? "videoTitle",
                           style: const TextStyle(
                             fontSize: 12.0,
                           ),
                           maxLines: 2,
                         ),
                         Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(video.duration!.toText())),
-                        FittedBox(child: Text(video.publishedAt.toString())),
-                        FittedBox(child: Text(video.viewCount.toString())),
+                          alignment: Alignment.centerRight,
+                          child: Text(Duration(
+                                  seconds: IsoDuration.parse(
+                                          video.contentDetails!.duration!)
+                                      .toSeconds()
+                                      .toInt())
+                              .toText()),
+                        ),
+                        FittedBox(
+                            child: Text(video.snippet!.publishedAt.toString())),
+                        FittedBox(
+                            child:
+                                Text(video.statistics!.viewCount.toString())),
                       ],
                     ),
                   ),
@@ -167,39 +179,32 @@ class _UserYouTubeChannelPageState extends State<UserYouTubeChannelPage> {
       itemCount = 1;
     }
     return Scaffold(
-      appBar: customAppBar(context),
-      body: channelStore.channel != null
-          ? NotificationListener<ScrollNotification>(
-              onNotification: (ScrollNotification scrollDetails) {
-                if (!_isLoading &&
-                    channelStore.channel!.videos!.length !=
-                        int.parse(channelStore.channel!.videoCount!) &&
-                    scrollDetails.metrics.pixels ==
-                        scrollDetails.metrics.maxScrollExtent) {
-                  _loadMoreVideos();
-                }
-                return false;
-              },
-              child: ListView.builder(
-                itemCount: itemCount,
-                itemBuilder: (BuildContext context, int index) {
-                  if (index == 0) {
-                    return _buildProfileInfo();
+        appBar: customAppBar(context),
+        body: channelStore.channel != null
+            ? NotificationListener<ScrollNotification>(
+                onNotification: (ScrollNotification scrollDetails) {
+                  if (!_isLoading &&
+                      channelStore.channel!.videos!.length !=
+                          int.parse(channelStore.channel!.videoCount!) &&
+                      scrollDetails.metrics.pixels ==
+                          scrollDetails.metrics.maxScrollExtent) {
+                    _loadMoreVideos();
                   }
-                  Video video =
-                      channelStore.channel!.videos!.values.toList()[index - 1];
-                  return _buildVideo(video);
+                  return false;
                 },
-              ),
-            )
-          : Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  Theme.of(context).primaryColor, // Red
+                child: ListView.builder(
+                  itemCount: itemCount,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index == 0) {
+                      return _buildProfileInfo();
+                    }
+                    Video video = channelStore.channel!.videos!.values
+                        .toList()[index - 1];
+                    return _buildVideo(video);
+                  },
                 ),
-              ),
-            ),
-    );
+              )
+            : CircularProgressIndicator.adaptive());
   }
 
   Padding formField({

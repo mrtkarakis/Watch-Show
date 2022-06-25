@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:watch_and_show/global.dart';
 import 'package:watch_and_show/pages/loginPage/login_register_page.dart';
+import 'package:watch_and_show/pages/profilePage/userYoutubeChannel/addVideoPage/add_Video_view.dart';
 import 'package:watch_and_show/pages/profilePage/userYoutubeChannel/user_youtube_channel_view.dart';
 import 'package:watch_and_show/styles/app_theme.dart';
 
@@ -38,7 +39,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const UserYouTubeChannelPage(),
+                    builder: (_) => channelStore.channel != null
+                        ? const UserYouTubeChannelPage()
+                        : AddVideoPage(),
                   ),
                 ),
               ),
