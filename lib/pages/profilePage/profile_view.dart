@@ -41,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   MaterialPageRoute(
                     builder: (_) => channelStore.channel != null
                         ? const UserYouTubeChannelPage()
-                        : AddVideoPage(),
+                        : const AddVideoPage(),
                   ),
                 ),
               ),

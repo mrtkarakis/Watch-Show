@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:watch_and_show/global.dart';
-import 'package:watch_and_show/services/api_services.dart';
 
 class SetWatchVideoDuration extends StatefulWidget {
   const SetWatchVideoDuration({

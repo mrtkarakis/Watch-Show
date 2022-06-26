@@ -6,7 +6,6 @@ import 'package:watch_and_show/extensions/duration.dart';
 import 'package:watch_and_show/global.dart';
 import 'package:watch_and_show/models/video.dart';
 import 'package:watch_and_show/pages/profilePage/userYoutubeChannel/user_youtube_channel_widgets.dart';
-import 'package:watch_and_show/services/api_services.dart';
 
 class UserYouTubeChannelPage extends StatefulWidget {
   const UserYouTubeChannelPage({Key? key}) : super(key: key);
@@ -204,7 +203,7 @@ class _UserYouTubeChannelPageState extends State<UserYouTubeChannelPage> {
                   },
                 ),
               )
-            : CircularProgressIndicator.adaptive());
+            : const CircularProgressIndicator.adaptive());
   }
 
   Padding formField({

@@ -157,6 +157,5 @@ class _PageCounterState extends State<PageCounter> {
         pageIndexBox(2)
       ],
     );
-    ;
   }
 }

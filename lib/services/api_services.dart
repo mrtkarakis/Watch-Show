@@ -1,20 +1,6 @@
-// import 'package:watch_and_show/models/channels.dart';
-
-// class ApiService {
-//   ApiService._instantiate();
-
-//   static final ApiService instance = ApiService._instantiate();
-//   final String _baseUrl = "www.googleapis.com";
-//   String _nextPageToken = "";
-
 // ignore_for_file: avoid_print
 
-//   Future<Channel> fetchChannel({required String channelId}) async{
-//     Map
-//   }
-// }
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:iso_duration_parser/iso_duration_parser.dart';
 import 'package:watch_and_show/global.dart';
 import 'package:watch_and_show/models/channel.dart';
 import 'package:watch_and_show/models/video.dart';

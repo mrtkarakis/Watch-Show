@@ -1,7 +1,6 @@
 import 'package:mobx/mobx.dart';
 import 'package:watch_and_show/global.dart';
 import 'package:watch_and_show/models/published_video.dart';
-import 'package:watch_and_show/models/video.dart';
 part 'videos_store.g.dart';
 
 class VideosStore = _VideosStoreBase with _$VideosStore;

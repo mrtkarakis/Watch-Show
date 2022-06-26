@@ -6,7 +6,7 @@ import 'package:watch_and_show/models/video.dart';
 import 'package:watch_and_show/pages/profilePage/userYoutubeChannel/user_youtube_channel_widgets.dart';
 
 class AddVideoPage extends StatefulWidget {
-  AddVideoPage({Key? key}) : super(key: key);
+  const AddVideoPage({Key? key}) : super(key: key);
 
   @override
   State<AddVideoPage> createState() => _AddVideoPageState();
@@ -50,11 +50,9 @@ class _AddVideoPageState extends State<AddVideoPage> {
                     child: ElevatedButton(
                         onPressed: () async {
                           bool hasCopyText = await Clipboard.hasStrings();
-                          print("hasCopyText $hasCopyText ");
                           if (hasCopyText) {
                             ClipboardData? copyText =
                                 await Clipboard.getData('text/plain');
-                            print("copyText $copyText ");
                             videoLinkTextEditingController.text =
                                 copyText!.text!.trim();
                           }
@@ -75,11 +73,10 @@ class _AddVideoPageState extends State<AddVideoPage> {
                               videoLinkUri.queryParameters["v"] as String;
                           Map<String, Video?>? fetchVideo =
                               await apiService.fetchVideos(id);
-                          print("keo $fetchVideo");
                           video = fetchVideo.values.first;
                           setState(() {});
                         },
-                        child: Text("Get Video Data")),
+                        child: const Text("Get Video Data")),
                   )
                 ],
               ),
@@ -105,7 +102,7 @@ class _AddVideoPageState extends State<AddVideoPage> {
                       Navigator.pop(context);
                     }
                   },
-                  child: Text("Publish"))
+                  child: const Text("Publish"))
             ],
           ),
         ),
