@@ -111,9 +111,9 @@ class APIService {
       };
       List<Map<String, dynamic>> videos = [];
       for (var element in channelStore.channel!.videos!.values.toList()) {
+        print("element ${element.toJson()} ");
         Map<String, dynamic> v = element.toJson();
-        // setFirebaseData[element.id.toString()]["dateOfUpload"] = DateTime.now();
-        v["dateOfUpload"] = DateTime.now();
+        // v["dateOfUpload"] = DateTime.now();
         Future.delayed(const Duration(microseconds: 100));
         videos.add(v);
       }

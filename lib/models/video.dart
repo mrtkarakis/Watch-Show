@@ -1,4 +1,3 @@
-import 'package:iso_duration_parser/iso_duration_parser.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'video.g.dart';
